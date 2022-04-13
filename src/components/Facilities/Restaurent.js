@@ -4,7 +4,7 @@ import { Box, Typography, makeStyles, Button } from "@material-ui/core";
 
 import { db } from "../../firebase";
 import { Timestamp, collection, addDoc } from "firebase/firestore";
-
+import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles({
   container: {
     display: "flex",
@@ -68,6 +68,7 @@ const useStyles = makeStyles({
 });
 
 const Restaurent = () => {
+  const navigate = useNavigate();
   const classes = useStyles();
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
@@ -96,23 +97,45 @@ const Restaurent = () => {
     setCheckedFive(!checkedFive);
   };
 
+  const getCheceker = () => {
+    let arr = [];
+
+    if (checkedOne) {
+      arr.push("Braille Signage");
+    }
+    if (checkedTwo) {
+      arr.push("Handrails");
+    }
+    if (checkedThree) {
+      arr.push("Ramps");
+    }
+    if (checkedFour) {
+      arr.push("Lifts");
+    }
+    if (checkedFive) {
+      arr.push("Accessible Help Centers");
+    }
+
+    return arr;
+  };
   const submitFormData = async (e) => {
     e.preventDefault();
     setName(name);
     setLocation(location);
     setLoading(true);
     setError(null);
+    let check = getCheceker();
     if (!name || !location) {
       setError("Please fill all the fields");
       setLoading(false);
     }
-    
+
     const colRef = collection(db, "restaurents");
 
     const newDoc = await addDoc(colRef, {
       name,
       location,
-
+      facilities: check,
       createdAt: Timestamp.fromDate(new Date()),
     });
 
@@ -120,6 +143,8 @@ const Restaurent = () => {
     setLocation("");
     setLoading(false);
     setError(null);
+
+    navigate("/");
   };
 
   return (
@@ -170,6 +195,7 @@ const Restaurent = () => {
             <label>
               <input
                 type="checkbox"
+                id="1"
                 checked={checkedOne}
                 onChange={handleChangeOne}
               />
@@ -177,6 +203,7 @@ const Restaurent = () => {
             </label>
             <label>
               <input
+                id="2"
                 type="checkbox"
                 checked={checkedTwo}
                 onChange={handleChangeTwo}
@@ -185,6 +212,7 @@ const Restaurent = () => {
             </label>
             <label>
               <input
+                id="3"
                 type="checkbox"
                 checked={checkedThree}
                 onChange={handleChangeThree}
@@ -193,6 +221,7 @@ const Restaurent = () => {
             </label>
             <label>
               <input
+                id="4"
                 type="checkbox"
                 checked={checkedFour}
                 onChange={handleChangeFour}
@@ -201,6 +230,7 @@ const Restaurent = () => {
             </label>
             <label>
               <input
+                id="5"
                 type="checkbox"
                 checked={checkedFive}
                 onChange={handleChangeFive}

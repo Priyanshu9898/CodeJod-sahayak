@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -11,8 +11,10 @@ import {
 } from "@material-ui/core";
 
 import DrawerComponent from "./DrawerComponent";
-
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase";
+import { useAuth } from "../../contexts/AuthContexts";
 
 const useStyles = makeStyles((theme) => ({
   component: {
@@ -93,6 +95,15 @@ const Navbar = () => {
   const classes = useStyles();
 
   const theme = useTheme();
+  const { currentUser } = useAuth();
+  console.log(currentUser);
+  const navigate = useNavigate();
+
+  const handleSignout = async () => {
+    await signOut(auth);
+
+    navigate("/login");
+  };
 
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
   console.log(isMatch);
@@ -159,13 +170,24 @@ const Navbar = () => {
               </Link>
             </Box>
             <Box className={classes.loginBox}>
-              <Link to="/login" className={classes.link}>
-                <Button className={classes.btnLogin}>
-                  <Typography variant="h6" color="white">
-                    Login/Singup
-                  </Typography>
-                </Button>
-              </Link>
+              {currentUser ? (
+                <>
+                  <Link to="/profile">Profile</Link>
+                  <button onClick={handleSignout} className={classes.btnLogin}>
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to="/signup" className={classes.link}>
+                    <Button className={classes.btnLogin}>
+                      <Typography variant="h6" color="white">
+                        Login/Singup
+                      </Typography>
+                    </Button>
+                  </Link>
+                </>
+              )}
             </Box>
           </>
         )}

@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Box, Typography, makeStyles, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import RestaurantIcon from "@mui/icons-material/Restaurant";
+import ParkIcon from "@mui/icons-material/Park";
+import WcIcon from "@mui/icons-material/Wc";
+import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 const useStyles = makeStyles({
   headerImage: {
     width: "100%",
@@ -92,7 +96,7 @@ const Home = () => {
               <Box className={classes.dropDown}>
                 <Link to="/restaurant" className={classes.link}>
                   <Box className={classes.facility}>
-                    <img alt="Resaturant" />
+                    <RestaurantIcon />
                     <Typography style={{ marginLeft: "30px" }}>
                       Add Restaurant
                     </Typography>
@@ -100,7 +104,7 @@ const Home = () => {
                 </Link>
                 <Link to="/clinic" className={classes.link}>
                   <Box className={classes.facility}>
-                    <img alt="Clinic" />
+                    <LocalHospitalIcon />
                     <Typography style={{ marginLeft: "30px" }}>
                       Add Clinic
                     </Typography>
@@ -108,7 +112,7 @@ const Home = () => {
                 </Link>
                 <Link to="/parks" className={classes.link}>
                   <Box className={classes.facility}>
-                    <img alt="Parks" />
+                    <ParkIcon />
                     <Typography style={{ marginLeft: "30px" }}>
                       Add Parks
                     </Typography>
@@ -116,7 +120,7 @@ const Home = () => {
                 </Link>
                 <Link to="/toilets" className={classes.link}>
                   <Box className={classes.facility}>
-                    <img alt="Public Toilets" />
+                    <WcIcon />
                     <Typography style={{ marginLeft: "30px" }}>
                       Add Public Toilets
                     </Typography>
